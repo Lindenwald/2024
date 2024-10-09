@@ -1,0 +1,27 @@
+def workload_probability(prob_sick, pool_size=100):
+    """
+    This function calculates the workload for pooled testing based on the probability of being sick.
+
+    :param prob_sick: The probability of getting sick (1/n where n is the number of people per infected person)
+    :param pool_size: The size of each pool of samples (default is 100)
+    :return: The expected workload (number of tests to be conducted)
+    """
+    # Todennäköisyys että yksi näistä testeistä on positiivinen
+    todennäköisyys_ainakin_1_sairas = 1 - (1 - prob_sick) ** pool_size
+
+    # Työ on 1 jos testi on negatiivinen ja 100 jos positiivinen
+    workload = (1 - todennäköisyys_ainakin_1_sairas) * 1 + todennäköisyys_ainakin_1_sairas * pool_size
+
+    return workload
+
+def main():
+    while True:
+        prob_sick = int(input("Kirjoita: Todennäköisyys sairaustua 1/n. n="))
+        prob = 1 / prob_sick
+        workload = workload_probability(prob, pool_size=100)
+        print(f"Sinun tulee tehdä keskimäärin {workload} testiä.")
+        continue_cuestion = int(input("Haluatio lopettaa? 1 = joo / muu = ei : "))
+        if continue_cuestion == 1:
+            break
+
+main()
